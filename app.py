@@ -26,9 +26,8 @@ for column in column_distribution:
 
 fig = px.histogram(df, x='FAMILY_INCOME', nbins=20)
 fig.update_layout(title_text=f'Распределение FAMILY_INCOME')
-fig.update_xaxes(tickangle=45)
-fig
 
+st.text("Выше можем заметить, что большинство семей зарабатывает от 10000 до 50000 руб")
 
 from plotly.subplots import make_subplots
 
@@ -98,20 +97,24 @@ FST_PAYMENT = st.slider("Введите FST_PAYMENT", min_value=int(df['FST_PAYM
 
 
 
-var1 = 10
-var2 = 'Hello'
-var3 = [1, 2, 3]
 
 # Создание DataFrame из переменных
-data = {'Variable_Name': ['AGE', 'SOCSTATUS_WORK_FL', 'SOCSTATUS_PENS_FL', 'GENDER', 'CHILD_TOTAL', 'DEPENDANTS', 'PERSONAL_INCOME',
-                          'FAMILY_INCOME', 'LOAN_NUM_TOTAL', 'LOAN_NUM_CLOSED', 'GEN_INDUSTRY', 'GEN_TITLE', 'JOB_DIR',
-                          'WORK_TIME', 'GEN_INDUSTRY_was_null' , 'GEN_TITLE_was_null' , 'JOB_DIR_was_null', 'WORK_TIME_was_null'
-                          'CREDIT', 'TERM', 'FST_PAYMENT'],
-        'Variable_Value': [int(AGE), str(SOCSTATUS_WORK_FL), str(SOCSTATUS_PENS_FL), str(GENDER), int(CHILD_TOTAL), int(DEPENDANTS), float(PERSONAL_INCOME),
-                          str(FAMILY_INCOME), int(LOAN_NUM_TOTAL), int(LOAN_NUM_CLOSED), str(GEN_INDUSTRY), str(GEN_TITLE), str(JOB_DIR),
-                          float(WORK_TIME),0,0,0,0,
-                           float(CREDIT), int(TERM), float(FST_PAYMENT)]}
+Variable_Value=  ['AGE', 'SOCSTATUS_WORK_FL', 'SOCSTATUS_PENS_FL', 'GENDER', 'CHILD_TOTAL', 'DEPENDANTS', 'PERSONAL_INCOME',
+                  'FAMILY_INCOME', 'LOAN_NUM_TOTAL', 'LOAN_NUM_CLOSED', 'GEN_INDUSTRY', 'GEN_TITLE', 'JOB_DIR',
+                  'WORK_TIME', 'GEN_INDUSTRY_was_null', 'GEN_TITLE_was_null', 'JOB_DIR_was_null', 'WORK_TIME_was_null',
+                  'CREDIT', 'TERM', 'FST_PAYMENT']
 
-df_got = pd.DataFrame(data)
+Variable_Name = [int(AGE), str(SOCSTATUS_WORK_FL), str(SOCSTATUS_PENS_FL), str(GENDER), int(CHILD_TOTAL),
+                 int(DEPENDANTS), float(PERSONAL_INCOME),
+                 str(FAMILY_INCOME), int(LOAN_NUM_TOTAL), int(LOAN_NUM_CLOSED), str(GEN_INDUSTRY), str(GEN_TITLE), str(JOB_DIR),
+                 float(WORK_TIME),0,0,0,0,float(CREDIT), int(TERM), float(FST_PAYMENT)]
+#
+df_got = pd.DataFrame([Variable_Name], columns=Variable_Value)
 
-predicted = predict(df_got)
+from model import make_prediction_logic_reg
+
+S, roc_auc= make_prediction_logic_reg(df_got)
+
+st.success(f"Roc_auc: {roc_auc}")
+
+S
